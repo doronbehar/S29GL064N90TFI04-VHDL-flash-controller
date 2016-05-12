@@ -1,5 +1,5 @@
 # project-name
-P=FLASH-controller
+P=flash-controller
 # top-level-entity
 TLE=FLASH_controller
 # device selected for programming
