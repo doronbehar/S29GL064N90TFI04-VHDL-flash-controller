@@ -1,16 +1,17 @@
+SETTINGS_FILE="settings.tcl"
 # project-name
 PROJECT=flash_controller
 # device selected for programming
-DEV=EP4CE115F29C7
+DEVICE=$(shell awk '$$1 == "set_global_assignment" && $$2 == "-name" && $$3 == "DEVICE" {print $$4}' ${SETTINGS_FILE})
 # family of the device
-F="Cyclone IV E"
+FAMILY=$(shell awk '$$1 == "set_global_assignment" && $$2 == "-name" && $$3 == "FAMILY" {for(i = 4; i <= NF; i++) {printf $$i" "}; printf "\n"}' ${SETTINGS_FILE})
 # custom FLAGS - mainly for setting the 64 bit flag or not:
 FLAGS=--64bit
 all: compile program
 compile:
 	quartus_sh ${FLAGS} --flow compile ${PROJECT}
 project:
-	quartus_sh ${FLAGS} --tcl_eval project_new -f ${F} -overwrite -p ${DEV} ${PROJECT}
+	quartus_sh ${FLAGS} --tcl_eval project_new -f ${FAMILY} -overwrite -p ${DEVICE} ${PROJECT}
 program:
 	quartus_pgm ${FLAGS} -c USB-Blaster ${PROJECT}.cdf
 RTL:
