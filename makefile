@@ -1,7 +1,5 @@
 # project-name
-P=flash-controller
-# top-level-entity
-TLE=FLASH_controller
+PROJECT=flash_controller
 # device selected for programming
 DEV=EP4CE115F29C7
 # family of the device
@@ -10,14 +8,14 @@ F="Cyclone IV E"
 FLAGS=--64bit
 all: compile program
 compile:
-	quartus_sh ${FLAGS} --flow compile ${P}
+	quartus_sh ${FLAGS} --flow compile ${PROJECT}
 project:
-	quartus_sh ${FLAGS} --tcl_eval project_new -f ${F} -overwrite -p ${DEV} ${P}
+	quartus_sh ${FLAGS} --tcl_eval project_new -f ${F} -overwrite -p ${DEV} ${PROJECT}
 program:
-	quartus_pgm ${FLAGS} -c USB-Blaster ${P}.cdf
+	quartus_pgm ${FLAGS} -c USB-Blaster ${PROJECT}.cdf
 RTL:
-	qnui ${FLAGS} ${P}
+	qnui ${FLAGS} ${PROJECT}
 symbol:
-	quartus_map ${FLAGS} ${P} --generate_symbol=${d}
+	quartus_map ${FLAGS} ${PROJECT} --generate_symbol=${d}
 analysis:
-	quartus_map ${FLAGS} ${P}
+	quartus_map ${FLAGS} ${PROJECT}
