@@ -6,7 +6,9 @@ DEVICE=$(shell awk '$$1 == "set_global_assignment" && $$2 == "-name" && $$3 == "
 # family of the device
 FAMILY=$(shell awk '$$1 == "set_global_assignment" && $$2 == "-name" && $$3 == "FAMILY" {for(i = 4; i <= NF; i++) {printf $$i" "}; printf "\n"}' ${SETTINGS_FILE})
 # custom FLAGS - mainly for setting the 64 bit flag or not:
-FLAGS=--64bit
+ifeq ($(shell uname -m),"x86_64")
+	FLAGS=--64bit
+endif
 all: compile program
 compile:
 	quartus_sh ${FLAGS} --flow compile ${PROJECT}
